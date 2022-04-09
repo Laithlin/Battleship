@@ -1,40 +1,167 @@
-var Battleship = /** @class */ (function () {
-    function Battleship() {
+// import {Board} from './plate';
+var Plate = /** @class */ (function () {
+    // public angle: number;
+    // public square: Path2D;
+    function Plate(startX, startY, height, width, color) {
         this.playerCanvas = document.getElementById('playerField');
-        this.aiCanvas = document.getElementById('aiField');
         this.playerContex = this.playerCanvas.getContext('2d');
-        this.aiContex = this.aiCanvas.getContext('2d');
-        this.playerDraw();
-        this.aiDraw();
+        this.startX = startX;
+        this.startY = startY;
+        this.height = height;
+        this.width = width;
+        this.color = color;
+        // this.angle = angle;
+        // this.square = new Path2D();
+        // console.log("dziala3")
     }
-    Battleship.prototype.playerDraw = function () {
-        var ctx = this.playerContex;
-        for (var i = 0; i < 10; i++) {
-            for (var j = 0; j < 10; j++) {
-                ctx.beginPath();
-                ctx.fillStyle = 'rgba(0,150,50,1)';
-                ctx.rect(10 + 60 * i, 10 + 60 * j, 50, 50);
-                ctx.fill();
-            }
-        }
+    Plate.prototype.drawBoard = function () {
+        // let canvasWidth = window.innerWidth * 0.95,
+        //     drawWidth = canvasWidth * this.width,
+        //     drawHeight = canvasWidth * this.height,
+        //     drawStartX = canvasWidth * this.startX,
+        //     drawStartY = canvasWidth * this.startY;
+        // this.playerContex.beginPath();
+        // this.playerContex.rotate(this.angle * Math.PI / 180);
+        // this.square.rect(this.startX, this.startY, this.height, this.width);
+        // this.playerContex.fillStyle = 'rgba(100,150,50,1)';
+        // this.playerContex.fill(this.square);
+        this.playerContex.beginPath();
+        this.playerContex.fillStyle = this.color;
+        this.playerContex.rect(this.startX, this.startY, this.width, this.height);
+        this.playerContex.fill();
+        // console.log("dziala2")
     };
-    Battleship.prototype.aiDraw = function () {
-        var ctx = this.aiContex;
-        for (var i = 0; i < 10; i++) {
-            for (var j = 0; j < 10; j++) {
-                ctx.beginPath();
-                ctx.fillStyle = 'rgba(50,100,150,1)';
-                ctx.rect(10 + 60 * i, 10 + 60 * j, 50, 50);
-                ctx.fill();
-            }
-        }
-    };
-    Battleship.prototype.checkUserEvent = function () {
-    };
-    Battleship.prototype.gameLoop = function () {
-        this.checkUserEvent();
-    };
-    return Battleship;
+    return Plate;
 }());
-var battleship = new Battleship();
-battleship.gameLoop();
+function playerDraw() {
+    // let ctx = playerContex;
+    for (var i = 0; i < 10; i++) {
+        var temporaryPlate = [];
+        for (var j = 0; j < 10; j++) {
+            var plate = new Plate(10 + 60 * i, 10 + 60 * j, 50, 50, 'rgba(183,179,199,1)');
+            temporaryPlate.push(plate);
+            plate.drawBoard();
+        }
+        plates.push(temporaryPlate);
+    }
+    console.log("dziala");
+}
+// [column][row]
+// 0 - none
+// 1 - top
+// 2 - right
+// 3 - bottom
+// 4 - left
+// 5 - top left
+// 6 - top right
+// 7 - bottom left
+// 8 - bottom right
+function checkWall(x, y) {
+    if (x === 0 && y != 9 && y != 0) {
+        console.log('left');
+        return [true, 4];
+    }
+    else if (x != 0 && x != 9 && y === 0) {
+        console.log('top');
+        return [true, 1];
+    }
+    else if (x === 0 && y === 0) {
+        console.log('top left');
+        return [true, 5];
+    }
+    else if (x === 9 && y != 9 && y != 0) {
+        console.log('right');
+        return [true, 2];
+    }
+    else if (x === 9 && y === 9) {
+        console.log('bottom right');
+        return [true, 8];
+    }
+    else if (x != 0 && x != 9 && y === 9) {
+        console.log('bottom');
+        return [true, 3];
+    }
+    else if (x === 9 && y === 0) {
+        console.log('top right');
+        return [true, 6];
+    }
+    else if (x === 0 && y === 9) {
+        console.log('bottom left');
+        return [true, 7];
+    }
+    else {
+        console.log('none');
+        return [true, 0];
+    }
+}
+function placeShips() {
+    var battleship = 5;
+    var destroyer = 4;
+    var battleshipHorizontal = Math.floor(Math.random() * 2);
+    var destroyerHorizontal = Math.floor(Math.random() * 2);
+    console.log(battleshipHorizontal);
+    if (battleshipHorizontal === 0) {
+        var battleshipRandom1 = Math.floor(Math.random() * 6);
+        var battleshipRandom2 = Math.floor(Math.random() * 10);
+        console.log(battleshipRandom1, battleshipRandom2);
+        for (var i = 0; i < battleship; i++) {
+            plates[battleshipRandom1 + i][battleshipRandom2].color = 'rgba(0,0,199,1)';
+            plates[battleshipRandom1 + i][battleshipRandom2].drawBoard();
+        }
+    }
+    else if (battleshipHorizontal === 1) {
+        var battleshipRandom1 = Math.floor(Math.random() * 10);
+        var battleshipRandom2 = Math.floor(Math.random() * 6);
+        console.log(battleshipRandom1, battleshipRandom2);
+        for (var i = 0; i < battleship; i++) {
+            plates[battleshipRandom1][battleshipRandom2 + i].color = 'rgba(0,0,199,1)';
+            plates[battleshipRandom1][battleshipRandom2 + i].drawBoard();
+        }
+    }
+    for (var j = 0; j < 2; j++) {
+        if (destroyerHorizontal === 0) {
+            var destroyerRandom1 = Math.floor(Math.random() * 6);
+            var destroyerRandom2 = Math.floor(Math.random() * 10);
+            console.log(destroyerRandom1, destroyerRandom2);
+            for (var i = 0; i < destroyer; i++) {
+                plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
+                plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
+            }
+        }
+        else if (destroyerHorizontal === 1) {
+            var destroyerRandom1 = Math.floor(Math.random() * 10);
+            var destroyerRandom2 = Math.floor(Math.random() * 6);
+            console.log(destroyerRandom1, destroyerRandom2);
+            for (var i = 0; i < destroyer; i++) {
+                plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
+                plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
+            }
+        }
+    }
+    // console.log(battleshipRandom1, battleshipRandom2)
+    // plates[battleshipRandom1][battleshipRandom2].color = 'rgba(0,0,199,1)';
+    // plates[battleshipRandom1][battleshipRandom2].drawBoard();
+    // checkWall(battleshipRandom1, battleshipRandom2);
+    // console.log(check[0])
+}
+// function checkIfStarted() {
+//
+// };
+function gameLoop() {
+    var btn = document.getElementById("start");
+    btn.addEventListener("click", function (e) { return playerDraw(); });
+    playerDraw();
+    placeShips();
+    // console.log(plates[2][3].color)
+    // plates[2][3].color = 'rgba(0,0,199,1)';
+    // plates[2][3].drawBoard();
+    // console.log(plates[2].color)
+    // checkIfStarted();
+    // let gameRunning = this.gameRunning;
+    // while(gameRunning){
+    //     this.checkUserEvent();
+    // }
+}
+var gameRunning = false;
+var plates = [];
+gameLoop();
