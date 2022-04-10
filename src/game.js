@@ -245,7 +245,6 @@ function changeInput(input) {
 }
 function playerMove() {
     var playerInput = document.getElementById("input");
-    var playerAction = document.getElementById('action');
     var shoot = changeInput(playerInput.value);
     var battleship = ships.slice(0, 5);
     var destroyer1 = ships.slice(5, 9);
@@ -324,6 +323,7 @@ function gameLoop() {
     battleshipSink = true;
     destroyer1Sink = true;
     destroyer2Sink = true;
+    playerAction.innerHTML = "";
 }
 var plates = [];
 var ships = [];
@@ -334,6 +334,7 @@ var win;
 var battleshipSink;
 var destroyer1Sink;
 var destroyer2Sink;
+var playerAction = document.getElementById('action');
 var btnStart = document.getElementById("start");
 btnStart.addEventListener("click", function (e) { return gameLoop(); });
 var btnInput = document.getElementById("play");

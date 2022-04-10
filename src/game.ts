@@ -276,7 +276,6 @@ function changeInput(input: string): any{
 
 function playerMove(){
     let playerInput = <HTMLInputElement> document.getElementById("input");
-    let playerAction = document.getElementById('action') as HTMLInputElement;
     let shoot = changeInput(playerInput.value);
     let battleship = ships.slice(0, 5);
     let destroyer1 = ships.slice(5, 9);
@@ -363,6 +362,7 @@ function gameLoop(): void {
     battleshipSink = true;
     destroyer1Sink = true;
     destroyer2Sink = true;
+    playerAction.innerHTML = "";
 
 }
 
@@ -375,6 +375,9 @@ let win;
 let battleshipSink;
 let destroyer1Sink;
 let destroyer2Sink;
+
+
+let playerAction = document.getElementById('action') as HTMLInputElement;
 
 let btnStart = document.getElementById("start");
 btnStart.addEventListener("click", (e:Event) => gameLoop());
