@@ -1,7 +1,4 @@
-// import {Board} from './plate';
 var Plate = /** @class */ (function () {
-    // public angle: number;
-    // public square: Path2D;
     function Plate(startX, startY, height, width, color) {
         this.playerCanvas = document.getElementById('playerField');
         this.playerContex = this.playerCanvas.getContext('2d');
@@ -10,31 +7,16 @@ var Plate = /** @class */ (function () {
         this.height = height;
         this.width = width;
         this.color = color;
-        // this.angle = angle;
-        // this.square = new Path2D();
-        // console.log("dziala3")
     }
     Plate.prototype.drawBoard = function () {
-        // let canvasWidth = window.innerWidth * 0.95,
-        //     drawWidth = canvasWidth * this.width,
-        //     drawHeight = canvasWidth * this.height,
-        //     drawStartX = canvasWidth * this.startX,
-        //     drawStartY = canvasWidth * this.startY;
-        // this.playerContex.beginPath();
-        // this.playerContex.rotate(this.angle * Math.PI / 180);
-        // this.square.rect(this.startX, this.startY, this.height, this.width);
-        // this.playerContex.fillStyle = 'rgba(100,150,50,1)';
-        // this.playerContex.fill(this.square);
         this.playerContex.beginPath();
         this.playerContex.fillStyle = this.color;
         this.playerContex.rect(this.startX, this.startY, this.width, this.height);
         this.playerContex.fill();
-        // console.log("dziala2")
     };
     return Plate;
 }());
 function playerDraw() {
-    // let ctx = playerContex;
     for (var i = 0; i < 10; i++) {
         var temporaryPlate = [];
         for (var j = 0; j < 10; j++) {
@@ -43,55 +25,6 @@ function playerDraw() {
             plate.drawBoard();
         }
         plates.push(temporaryPlate);
-    }
-    // console.log("dziala")
-}
-// [column][row]
-// 0 - none
-// 1 - top
-// 2 - right
-// 3 - bottom
-// 4 - left
-// 5 - top left
-// 6 - top right
-// 7 - bottom left
-// 8 - bottom right
-function checkWall(x, y) {
-    if (x === 0 && y != 9 && y != 0) {
-        console.log('left');
-        return [true, 4];
-    }
-    else if (x != 0 && x != 9 && y === 0) {
-        console.log('top');
-        return [true, 1];
-    }
-    else if (x === 0 && y === 0) {
-        console.log('top left');
-        return [true, 5];
-    }
-    else if (x === 9 && y != 9 && y != 0) {
-        console.log('right');
-        return [true, 2];
-    }
-    else if (x === 9 && y === 9) {
-        console.log('bottom right');
-        return [true, 8];
-    }
-    else if (x != 0 && x != 9 && y === 9) {
-        console.log('bottom');
-        return [true, 3];
-    }
-    else if (x === 9 && y === 0) {
-        console.log('top right');
-        return [true, 6];
-    }
-    else if (x === 0 && y === 9) {
-        console.log('bottom left');
-        return [true, 7];
-    }
-    else {
-        console.log('none');
-        return [true, 0];
     }
 }
 function updateGrid(tempGrid, field, grid, ship) {
@@ -129,10 +62,7 @@ function updateGrid(tempGrid, field, grid, ship) {
 function checkIfInArray(arr, elements) {
     var inArray = false;
     for (var i = 0; i < arr.length; i++) {
-        // console.log(arr[i], elements);
         if (arr[i][0] === elements[0] && arr[i][1] === elements[1]) {
-            // console.log(arr[i], elements);
-            // console.log("jest");
             inArray = true;
         }
     }
@@ -147,44 +77,33 @@ function placeShips() {
     var battleshipHorizontal = Math.floor(Math.random() * 2);
     var destroyerHorizontal = Math.floor(Math.random() * 2);
     var destroyerHorizontal2 = Math.floor(Math.random() * 2);
-    // console.log(battleshipHorizontal);
     if (battleshipHorizontal === 0) {
         var battleshipRandom1 = Math.floor(Math.random() * 6);
         var battleshipRandom2 = Math.floor(Math.random() * 10);
         battleshipField.push(battleshipHorizontal);
         battleshipField.push(battleshipRandom1);
         battleshipField.push(battleshipRandom2);
-        // console.log(battleshipRandom1, battleshipRandom2)
         for (var i = 0; i < battleship; i++) {
-            // plates[battleshipRandom1 + i][battleshipRandom2].color = 'rgba(0,0,199,1)';
-            // plates[battleshipRandom1 + i][battleshipRandom2].drawBoard();
             ships.push([battleshipRandom1 + i, battleshipRandom2]);
         }
     }
     else if (battleshipHorizontal === 1) {
         var battleshipRandom1 = Math.floor(Math.random() * 10);
         var battleshipRandom2 = Math.floor(Math.random() * 6);
-        // console.log(battleshipRandom1, battleshipRandom2);
         battleshipField.push(battleshipHorizontal);
         battleshipField.push(battleshipRandom1);
         battleshipField.push(battleshipRandom2);
         for (var i = 0; i < battleship; i++) {
-            // plates[battleshipRandom1][battleshipRandom2 + i].color = 'rgba(0,0,199,1)';
-            // plates[battleshipRandom1][battleshipRandom2 + i].drawBoard();
             ships.push([battleshipRandom1, battleshipRandom2 + i]);
         }
     }
     columnGrid = updateGrid(columnGrid, battleshipField, 'x', battleship);
-    // console.log('columns: ', columnGrid);
     rowGrid = updateGrid(rowGrid, battleshipField, 'y', battleship);
-    // console.log('rows: ', rowGrid);
-    // console.log(checkIfInArray(rowGrid, [0,0]));
     var destroyerField = [];
     if (destroyerHorizontal === 0) {
         var destroyerRandom1 = Math.floor(Math.random() * 6);
         var destroyerRandom2 = Math.floor(Math.random() * 10);
         if (checkIfInArray(columnGrid, [destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])) {
-            console.log("roll again");
             var rollAgain = true;
             while (rollAgain) {
                 destroyerRandom1 = Math.floor(Math.random() * 6);
@@ -200,10 +119,7 @@ function placeShips() {
         destroyerField.push(destroyerHorizontal);
         destroyerField.push(destroyerRandom1);
         destroyerField.push(destroyerRandom2);
-        // console.log(destroyerRandom1, destroyerRandom2);
         for (var i = 0; i < destroyer; i++) {
-            // plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
-            // plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
             ships.push([destroyerRandom1 + i, destroyerRandom2]);
         }
     }
@@ -211,7 +127,6 @@ function placeShips() {
         var destroyerRandom1 = Math.floor(Math.random() * 10);
         var destroyerRandom2 = Math.floor(Math.random() * 6);
         if (checkIfInArray(columnGrid, [destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])) {
-            console.log("roll again");
             var rollAgain = true;
             while (rollAgain) {
                 destroyerRandom1 = Math.floor(Math.random() * 10);
@@ -227,17 +142,12 @@ function placeShips() {
         destroyerField.push(destroyerHorizontal);
         destroyerField.push(destroyerRandom1);
         destroyerField.push(destroyerRandom2);
-        // console.log(destroyerRandom1, destroyerRandom2);
         for (var i = 0; i < destroyer; i++) {
-            // plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
-            // plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
             ships.push([destroyerRandom1, destroyerRandom2 + i]);
         }
     }
     columnGrid = updateGrid(columnGrid, destroyerField, 'x', destroyer);
-    // console.log('columns: ', columnGrid);
     rowGrid = updateGrid(rowGrid, destroyerField, 'y', destroyer);
-    // console.log('rows: ', rowGrid);
     if (destroyerHorizontal2 === 0) {
         var destroyerRandom3 = Math.floor(Math.random() * 6);
         var destroyerRandom4 = Math.floor(Math.random() * 10);
@@ -256,8 +166,6 @@ function placeShips() {
         }
         console.log(destroyerRandom3, destroyerRandom4);
         for (var i = 0; i < destroyer; i++) {
-            // plates[destroyerRandom3 + i][destroyerRandom4].color = 'rgba(0,0,199,1)';
-            // plates[destroyerRandom3 + i][destroyerRandom4].drawBoard();
             ships.push([destroyerRandom3 + i, destroyerRandom4]);
         }
     }
@@ -279,21 +187,11 @@ function placeShips() {
         }
         console.log(destroyerRandom3, destroyerRandom4);
         for (var i = 0; i < destroyer; i++) {
-            // plates[destroyerRandom3][destroyerRandom4 + i].color = 'rgba(0,0,199,1)';
-            // plates[destroyerRandom3][destroyerRandom4 + i].drawBoard();
             ships.push([destroyerRandom3, destroyerRandom4 + i]);
         }
     }
     console.log(ships);
-    // console.log(battleshipRandom1, battleshipRandom2)
-    // plates[battleshipRandom1][battleshipRandom2].color = 'rgba(0,0,199,1)';
-    // plates[battleshipRandom1][battleshipRandom2].drawBoard();
-    // checkWall(battleshipRandom1, battleshipRandom2);
-    // console.log(check[0])
 }
-// function checkIfStarted() {
-//
-// };
 function checkPattern(pattern) {
     return false;
 }
@@ -348,20 +246,15 @@ function changeInput(input) {
 function playerMove() {
     var playerInput = document.getElementById("input");
     var playerAction = document.getElementById('action');
-    // console.log(playerInput.value);
-    // let str = '28';
-    // let num = +str;
-    // let slicedInput = str.slice(1, str.length);
-    // console.log(slicedInput);
     var shoot = changeInput(playerInput.value);
-    // console.log(shoot);
     var battleship = ships.slice(0, 5);
     var destroyer1 = ships.slice(5, 9);
     var destroyer2 = ships.slice(9, ships.length);
-    console.log("shot", shoot);
-    console.log("battleship: ", battleshipShot);
-    console.log("destroyer1: ", destroyer1Shot);
-    console.log("destroyer2: ", destroyer2Shot);
+    //
+    // console.log("shot", shoot);
+    // console.log("battleship: ", battleshipShot);
+    // console.log("destroyer1: ",destroyer1Shot);
+    // console.log("destroyer2: ", destroyer2Shot);
     if (checkIfInArray(battleship, shoot)) {
         // console.log("trafiony");
         plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
@@ -424,17 +317,23 @@ function playerMove() {
 function gameLoop() {
     playerDraw();
     placeShips();
+    battleshipShot = [];
+    destroyer1Shot = [];
+    destroyer2Shot = [];
+    win = [];
+    battleshipSink = true;
+    destroyer1Sink = true;
+    destroyer2Sink = true;
 }
-var gameRunning = false;
 var plates = [];
 var ships = [];
-var battleshipShot = [];
-var destroyer1Shot = [];
-var destroyer2Shot = [];
-var win = [];
-var battleshipSink = true;
-var destroyer1Sink = true;
-var destroyer2Sink = true;
+var battleshipShot;
+var destroyer1Shot;
+var destroyer2Shot;
+var win;
+var battleshipSink;
+var destroyer1Sink;
+var destroyer2Sink;
 var btnStart = document.getElementById("start");
 btnStart.addEventListener("click", function (e) { return gameLoop(); });
 var btnInput = document.getElementById("play");
