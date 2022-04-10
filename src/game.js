@@ -398,20 +398,23 @@ function playerMove() {
         plates[shoot[0]][shoot[1]].drawBoard();
         playerAction.innerHTML = "MISS!";
     }
-    if (battleshipShot.length == 5) {
+    if (battleshipShot.length == 5 && battleshipSink == true) {
         win.push(true);
         console.log("zatopiony");
         playerAction.innerHTML = "SINK!";
+        battleshipSink = false;
     }
-    if (destroyer1Shot.length == 4) {
+    if (destroyer1Shot.length == 4 && destroyer1Sink == true) {
         win.push(true);
         console.log("zatopiony");
         playerAction.innerHTML = "SINK!";
+        destroyer1Sink = false;
     }
-    if (destroyer2Shot.length == 4) {
+    if (destroyer2Shot.length == 4 && destroyer2Sink == true) {
         win.push(true);
         console.log("zatopiony");
         playerAction.innerHTML = "SINK!";
+        destroyer2Sink = false;
     }
     if (win.length == 3) {
         console.log("you win!");
@@ -429,8 +432,17 @@ var battleshipShot = [];
 var destroyer1Shot = [];
 var destroyer2Shot = [];
 var win = [];
+var battleshipSink = true;
+var destroyer1Sink = true;
+var destroyer2Sink = true;
 var btnStart = document.getElementById("start");
 btnStart.addEventListener("click", function (e) { return gameLoop(); });
 var btnInput = document.getElementById("play");
 btnInput.addEventListener("click", function (e) { return playerMove(); });
+var enterInput = document.getElementById("input");
+enterInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        playerMove();
+    }
+});
 // gameLoop();

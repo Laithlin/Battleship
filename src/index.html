@@ -17,7 +17,7 @@
     <div id="game" style="text-align: center">
         <p id="action" style="text-align: center; font-size: 24px; font-weight: bold;
          display: block; margin-left: auto; margin-right: auto; height: 35px; width: 610px; border: 1px solid black"></p>
-        <input id="input" type="text" placeholder="a5" style="text-align: center; margin-top: 10px; height: 25px; width: 200px; font-size: 16px">
+        <input (keydown.enter)='playerMove()'  id="input" type="text" placeholder="a5" style="text-align: center; margin-top: 10px; height: 25px; width: 200px; font-size: 16px">
         <button id="play" style="width: 100px; height: 50px; margin-left: 20px">ENTER</button>
 
     </div>
