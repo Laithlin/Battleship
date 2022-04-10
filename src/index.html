@@ -3,12 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Battleship</title>
+    <style>
+        canvas {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
 <div id="main">
     <canvas id="playerField" width="610" height="610" style="border: 1px solid black"></canvas>
-    <div>
-        <button id="start">START</button>
+    <div id="game" style="text-align: center">
+        <p id="action" style="text-align: center; font-size: 24px; font-weight: bold;
+         display: block; margin-left: auto; margin-right: auto; height: 35px; width: 610px; border: 1px solid black"></p>
+        <input id="input" type="text" placeholder="a5" style="text-align: center; margin-top: 10px; height: 25px; width: 200px; font-size: 16px">
+        <button id="play" style="width: 100px; height: 50px; margin-left: 20px">ENTER</button>
+
+    </div>
+    <div style="text-align: center">
+        <button id="start" style=" margin-top: 20px; width: 100px; height: 50px">START</button>
     </div>
 
     <script src="game.js"></script>

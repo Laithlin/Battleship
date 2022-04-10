@@ -57,7 +57,7 @@ function playerDraw() {
         plates.push(temporaryPlate);
     }
 
-    console.log("dziala")
+    // console.log("dziala")
 }
 // [column][row]
 // 0 - none
@@ -111,15 +111,65 @@ function checkWall(x: number, y:number): any {
 
 }
 
+function updateGrid(tempGrid: any, field: any, grid: string,  ship: number): any {
+    let startExcludeX = -1;
+    let startExcludeY = -1;
+    if (field[0] === 0) {
+        if (grid == 'x'){
+            startExcludeY = -4;
+        }
+        else if (grid == 'y'){
+            startExcludeX = -4;
+        }
+        for(let j = startExcludeX; j < 2; j++){
+            for(let i = startExcludeY; i < ship + 1; i++){
+                tempGrid.push([field[1] + i, field[2] + j]);
+            }
+        }
+        return tempGrid;
+    }
+    else if (field[0] === 1) {
+        if (grid == 'x'){
+            startExcludeY = -4;
+        }
+        else if (grid == 'y'){
+            startExcludeX = -4;
+        }
+        for(let j = startExcludeY; j < 2; j++){
+            for(let i = startExcludeX; i < ship + 1; i++){
+                tempGrid.push([field[1] + j, field[2] + i]);
+            }
+        }
+        return tempGrid;
+    }
+}
+
+function checkIfInArray(arr: any, elements: any): boolean {
+    let inArray = false;
+    for(let i = 0; i < arr.length; i++){
+        // console.log(arr[i], elements);
+        if(arr[i][0] === elements[0] && arr[i][1] === elements[1]){
+            // console.log(arr[i], elements);
+            // console.log("jest");
+            inArray = true;
+        }
+    }
+
+    return inArray;
+}
+
 function placeShips() {
     let battleship = 5;
     let destroyer = 4;
 
     let battleshipField = [];
+    let columnGrid = [];
+    let rowGrid = [];
 
     let battleshipHorizontal = Math.floor(Math.random()*2);
     let destroyerHorizontal = Math.floor(Math.random()*2);
-    console.log(battleshipHorizontal);
+    let destroyerHorizontal2 = Math.floor(Math.random()*2);
+    // console.log(battleshipHorizontal);
 
     if (battleshipHorizontal === 0) {
         let battleshipRandom1 = Math.floor(Math.random()*6)
@@ -127,53 +177,144 @@ function placeShips() {
         battleshipField.push(battleshipHorizontal);
         battleshipField.push(battleshipRandom1);
         battleshipField.push(battleshipRandom2);
-        console.log(battleshipRandom1, battleshipRandom2)
+        // console.log(battleshipRandom1, battleshipRandom2)
         for (let i = 0; i < battleship; i++) {
             plates[battleshipRandom1 + i][battleshipRandom2].color = 'rgba(0,0,199,1)';
             plates[battleshipRandom1 + i][battleshipRandom2].drawBoard();
+            ships.push([battleshipRandom1 + i, battleshipRandom2]);
         }
     }
     else if (battleshipHorizontal === 1) {
         let battleshipRandom1 = Math.floor(Math.random() *10)
         let battleshipRandom2 = Math.floor(Math.random() *6)
-        console.log(battleshipRandom1, battleshipRandom2)
+        // console.log(battleshipRandom1, battleshipRandom2);
+        battleshipField.push(battleshipHorizontal);
+        battleshipField.push(battleshipRandom1);
+        battleshipField.push(battleshipRandom2);
         for (let i = 0; i < battleship; i++) {
-            battleshipField.push(battleshipHorizontal);
-            battleshipField.push(battleshipRandom1);
-            battleshipField.push(battleshipRandom2);
             plates[battleshipRandom1][battleshipRandom2 + i].color = 'rgba(0,0,199,1)';
             plates[battleshipRandom1][battleshipRandom2 + i].drawBoard();
+            ships.push([battleshipRandom1, battleshipRandom2 + i]);
         }
     }
+    columnGrid = updateGrid(columnGrid, battleshipField, 'x', battleship);
+    // console.log('columns: ', columnGrid);
+    rowGrid = updateGrid(rowGrid, battleshipField, 'y', battleship);
+    // console.log('rows: ', rowGrid);
+
+    // console.log(checkIfInArray(rowGrid, [0,0]));
 
     let destroyerField = [];
-    for(let j = 0; j < 2; j++) {
-        if (destroyerHorizontal === 0) {
-            let destroyerRandom1 = Math.floor(Math.random()*6)
-            let destroyerRandom2 = Math.floor(Math.random()*10)
-            destroyerField.push(destroyerHorizontal);
-            destroyerField.push(destroyerRandom1);
-            destroyerField.push(destroyerRandom2);
-            console.log(destroyerRandom1, destroyerRandom2)
-            for (let i = 0; i < destroyer; i++) {
-                plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
-                plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
+    if (destroyerHorizontal === 0) {
+        let destroyerRandom1 = Math.floor(Math.random()*6);
+        let destroyerRandom2 = Math.floor(Math.random()*10);
+        if (checkIfInArray(columnGrid,[destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])){
+            console.log("roll again");
+            let rollAgain = true;
+            while(rollAgain){
+                destroyerRandom1 = Math.floor(Math.random()*6);
+                destroyerRandom2 = Math.floor(Math.random()*10);
+                if (checkIfInArray(columnGrid,[destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])){
+                    continue;
+                }
+                else{
+                    rollAgain = false;
+                }
             }
 
         }
-        else if (destroyerHorizontal === 1) {
-            let destroyerRandom1 = Math.floor(Math.random() *10)
-            let destroyerRandom2 = Math.floor(Math.random() *6)
-            destroyerField.push(destroyerHorizontal);
-            destroyerField.push(destroyerRandom1);
-            destroyerField.push(destroyerRandom2);
-            console.log(destroyerRandom1, destroyerRandom2)
-            for (let i = 0; i < destroyer; i++) {
-                plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
-                plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
+        destroyerField.push(destroyerHorizontal);
+        destroyerField.push(destroyerRandom1);
+        destroyerField.push(destroyerRandom2);
+        // console.log(destroyerRandom1, destroyerRandom2);
+        for (let i = 0; i < destroyer; i++) {
+            plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
+            plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
+            ships.push([destroyerRandom1 + i, destroyerRandom2]);
+        }
+
+    }
+    else if (destroyerHorizontal === 1) {
+        let destroyerRandom1 = Math.floor(Math.random() *10)
+        let destroyerRandom2 = Math.floor(Math.random() *6)
+        if (checkIfInArray(columnGrid,[destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])){
+            console.log("roll again");
+            let rollAgain = true;
+            while(rollAgain){
+                destroyerRandom1 = Math.floor(Math.random()*10);
+                destroyerRandom2 = Math.floor(Math.random()*6);
+                if (checkIfInArray(columnGrid,[destroyerRandom1, destroyerRandom2]) || checkIfInArray(rowGrid, [destroyerRandom1, destroyerRandom2])){
+                    continue;
+                }
+                else{
+                    rollAgain = false;
+                }
             }
+
+        }
+        destroyerField.push(destroyerHorizontal);
+        destroyerField.push(destroyerRandom1);
+        destroyerField.push(destroyerRandom2);
+        // console.log(destroyerRandom1, destroyerRandom2);
+        for (let i = 0; i < destroyer; i++) {
+            plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
+            plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
+            ships.push([destroyerRandom1 , destroyerRandom2 + i]);
         }
     }
+
+    columnGrid = updateGrid(columnGrid, destroyerField, 'x', destroyer);
+    // console.log('columns: ', columnGrid);
+    rowGrid = updateGrid(rowGrid, destroyerField, 'y', destroyer);
+    // console.log('rows: ', rowGrid);
+
+    if (destroyerHorizontal2 === 0) {
+        let destroyerRandom3 = Math.floor(Math.random()*6)
+        let destroyerRandom4 = Math.floor(Math.random()*10)
+        if (checkIfInArray(columnGrid,[destroyerRandom3, destroyerRandom4]) || checkIfInArray(rowGrid, [destroyerRandom3, destroyerRandom4])) {
+            let rollAgain = true;
+            while (rollAgain) {
+                destroyerRandom3 = Math.floor(Math.random() * 6);
+                destroyerRandom4 = Math.floor(Math.random() * 10);
+                if (checkIfInArray(columnGrid, [destroyerRandom3, destroyerRandom4]) || checkIfInArray(rowGrid, [destroyerRandom3, destroyerRandom4])) {
+                    continue;
+                } else {
+                    rollAgain = false;
+                }
+            }
+        }
+
+        console.log(destroyerRandom3, destroyerRandom4)
+        for (let i = 0; i < destroyer; i++) {
+            plates[destroyerRandom3 + i][destroyerRandom4].color = 'rgba(0,0,199,1)';
+            plates[destroyerRandom3 + i][destroyerRandom4].drawBoard();
+            ships.push([destroyerRandom3 + i, destroyerRandom4]);
+        }
+
+    }
+    else if (destroyerHorizontal2 === 1) {
+        let destroyerRandom3 = Math.floor(Math.random() *10)
+        let destroyerRandom4 = Math.floor(Math.random() *6)
+        if (checkIfInArray(columnGrid,[destroyerRandom3, destroyerRandom4]) || checkIfInArray(rowGrid, [destroyerRandom3, destroyerRandom4])) {
+            let rollAgain = true;
+            while (rollAgain) {
+                destroyerRandom3 = Math.floor(Math.random() * 10);
+                destroyerRandom4 = Math.floor(Math.random() * 6);
+                if (checkIfInArray(columnGrid, [destroyerRandom3, destroyerRandom4]) || checkIfInArray(rowGrid, [destroyerRandom3, destroyerRandom4])) {
+                    continue;
+                } else {
+                    rollAgain = false;
+                }
+            }
+        }
+        console.log(destroyerRandom3, destroyerRandom4)
+        for (let i = 0; i < destroyer; i++) {
+            plates[destroyerRandom3][destroyerRandom4 + i].color = 'rgba(0,0,199,1)';
+            plates[destroyerRandom3][destroyerRandom4 + i].drawBoard();
+            ships.push([destroyerRandom3, destroyerRandom4 + i]);
+        }
+    }
+    console.log(ships);
 
     // console.log(battleshipRandom1, battleshipRandom2)
     // plates[battleshipRandom1][battleshipRandom2].color = 'rgba(0,0,199,1)';
@@ -186,27 +327,99 @@ function placeShips() {
 //
 // };
 
-function gameLoop(): void {
+function checkPattern(pattern: string): boolean{
 
-    let btn = document.getElementById("start");
-    btn.addEventListener("click", (e:Event) => playerDraw());
+    return false;
+}
+
+function changeInput(input: string): any{
+    let firstPart = 0;
+    let slicedInput = input.slice(1, input.length);
+    let secondPart = +slicedInput;
+    let lowInput = input[0].toLowerCase();
+
+    switch (lowInput){
+        case 'a': {
+            firstPart = 0;
+            break;
+        }
+        case 'b': {
+            firstPart = 1;
+            break;
+        }
+        case 'c': {
+            firstPart = 2;
+            break;
+        }
+        case 'd': {
+           firstPart = 3;
+           break;
+        }
+        case 'e': {
+            firstPart = 4;
+            break;
+        }
+        case 'f': {
+            firstPart = 5;
+            break;
+        }
+        case 'g': {
+            firstPart = 6;
+            break;
+        }
+        case 'h': {
+            firstPart = 7;
+            break;
+        }
+        case 'i': {
+            firstPart = 8;
+            break;
+        }
+        case 'j': {
+            firstPart = 9;
+        }
+    }
+
+    return [firstPart, secondPart-1];
+}
+
+function playerMove(){
+    let playerInput = <HTMLInputElement> document.getElementById("input");
+    console.log(playerInput.value);
+    // let str = '28';
+    // let num = +str;
+    // let slicedInput = str.slice(1, str.length);
+    // console.log(slicedInput);
+    let shoot = changeInput(playerInput.value);
+    console.log(shoot);
+    if(checkIfInArray(ships, shoot)){
+        console.log("trafiony");
+        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+        plates[shoot[0]][shoot[1]].drawBoard();
+    }
+    else {
+        plates[shoot[0]][shoot[1]].color = 'rgba(150,150,0,1)';
+        plates[shoot[0]][shoot[1]].drawBoard();
+    }
+
+
+}
+
+function gameLoop(): void {
 
     playerDraw();
     placeShips();
-    // console.log(plates[2][3].color)
-    // plates[2][3].color = 'rgba(0,0,199,1)';
-    // plates[2][3].drawBoard();
-    // console.log(plates[2].color)
-    // checkIfStarted();
-
-    // let gameRunning = this.gameRunning;
-
-    // while(gameRunning){
-    //     this.checkUserEvent();
-    // }
 
 }
+
 let gameRunning = false;
 let plates = [];
+let ships = [];
 
-gameLoop();
+let btnStart = document.getElementById("start");
+btnStart.addEventListener("click", (e:Event) => gameLoop());
+
+let btnInput = document.getElementById("play");
+btnInput.addEventListener("click", (e:Event) => playerMove());
+
+// gameLoop();
