@@ -219,8 +219,37 @@ function placeShips() {
 }
 
 function checkPattern(pattern: string): boolean{
+    let letterArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    let digitArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-    return false;
+    if (pattern.length == 3 || pattern.length == 2){
+        console.log("ok")
+        let firstPart = pattern[0];
+        let secondPart = pattern.slice(1, pattern.length);
+        let goodFirst = false;
+        let goodSecond = false;
+        console.log(firstPart);
+        for (let i = 0; i < letterArr.length; i++){
+            if (letterArr[i] == firstPart){
+                goodFirst = true;
+            }
+        }
+        for (let i = 0; i < digitArr.length; i++){
+            if (digitArr[i] == secondPart){
+                goodSecond = true;
+            }
+        }
+        console.log(goodSecond);
+        console.log(goodFirst);
+        if (goodFirst && goodSecond){
+            return true;
+        }
+        return false;
+    }
+    else {
+        return false;
+    }
 }
 
 function changeInput(input: string): any{
@@ -276,85 +305,76 @@ function changeInput(input: string): any{
 
 function playerMove(){
     let playerInput = <HTMLInputElement> document.getElementById("input");
-    let shoot = changeInput(playerInput.value);
-    let battleship = ships.slice(0, 5);
-    let destroyer1 = ships.slice(5, 9);
-    let destroyer2 = ships.slice(9, ships.length);
-    //
-    // console.log("shot", shoot);
-    // console.log("battleship: ", battleshipShot);
-    // console.log("destroyer1: ",destroyer1Shot);
-    // console.log("destroyer2: ", destroyer2Shot);
-    if(checkIfInArray(battleship, shoot)){
-        // console.log("trafiony");
-        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
-        plates[shoot[0]][shoot[1]].drawBoard();
-        console.log(!checkIfInArray(battleshipShot, shoot))
-        if (!checkIfInArray(battleshipShot, shoot)){
-            console.log("trafiony");
-            battleshipShot.push(shoot);
-        }
-        playerAction.innerHTML = "HIT!";
+    let isGood = checkPattern(playerInput.value);
 
-    }
-    else if(checkIfInArray(destroyer1, shoot)){
-        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
-        plates[shoot[0]][shoot[1]].drawBoard();
-        console.log(!checkIfInArray(battleshipShot, shoot))
-        if (!checkIfInArray(destroyer1Shot, shoot)){
-            console.log("trafiony");
-            destroyer1Shot.push(shoot);
+    if (isGood){
+        let shoot = changeInput(playerInput.value);
+        let battleship = ships.slice(0, 5);
+        let destroyer1 = ships.slice(5, 9);
+        let destroyer2 = ships.slice(9, ships.length);
+
+        if(checkIfInArray(battleship, shoot)){
+            plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+            plates[shoot[0]][shoot[1]].drawBoard();
+            if (!checkIfInArray(battleshipShot, shoot)){
+                battleshipShot.push(shoot);
+            }
+            playerAction.innerHTML = "HIT!";
+
         }
-        playerAction.innerHTML = "HIT!";
-    }
-    else if(checkIfInArray(destroyer2, shoot)){
-        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
-        plates[shoot[0]][shoot[1]].drawBoard();
-        console.log(!checkIfInArray(battleshipShot, shoot))
-        if (!checkIfInArray(destroyer2Shot, shoot)){
-            console.log("trafiony");
-            destroyer2Shot.push(shoot);
+        else if(checkIfInArray(destroyer1, shoot)){
+            plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+            plates[shoot[0]][shoot[1]].drawBoard();
+            if (!checkIfInArray(destroyer1Shot, shoot)){
+                destroyer1Shot.push(shoot);
+            }
+            playerAction.innerHTML = "HIT!";
         }
-        playerAction.innerHTML = "HIT!";
+        else if(checkIfInArray(destroyer2, shoot)){
+            plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+            plates[shoot[0]][shoot[1]].drawBoard();
+            if (!checkIfInArray(destroyer2Shot, shoot)){
+                destroyer2Shot.push(shoot);
+            }
+            playerAction.innerHTML = "HIT!";
+        }
+        else {
+            plates[shoot[0]][shoot[1]].color = 'rgba(150,150,0,1)';
+            plates[shoot[0]][shoot[1]].drawBoard();
+            playerAction.innerHTML = "MISS!";
+        }
+
+        if(battleshipShot.length == 5 && battleshipSink == true){
+            win.push(true);
+            playerAction.innerHTML = "SINK!";
+            battleshipSink = false;
+        }
+
+        if (destroyer1Shot.length == 4 && destroyer1Sink == true){
+            win.push(true);
+            playerAction.innerHTML = "SINK!";
+            destroyer1Sink = false;
+        }
+
+        if (destroyer2Shot.length == 4 && destroyer2Sink == true){
+            win.push(true);
+            playerAction.innerHTML = "SINK!";
+            destroyer2Sink = false;
+        }
+
+        if (win.length == 3){
+            playerAction.innerHTML = "YOU WIN!";
+        }
     }
     else {
-        plates[shoot[0]][shoot[1]].color = 'rgba(150,150,0,1)';
-        plates[shoot[0]][shoot[1]].drawBoard();
-        playerAction.innerHTML = "MISS!";
-    }
-
-    if(battleshipShot.length == 5 && battleshipSink == true){
-        win.push(true);
-        console.log("zatopiony");
-        playerAction.innerHTML = "SINK!";
-        battleshipSink = false;
-    }
-
-    if (destroyer1Shot.length == 4 && destroyer1Sink == true){
-        win.push(true);
-        console.log("zatopiony");
-        playerAction.innerHTML = "SINK!";
-        destroyer1Sink = false;
-    }
-
-    if (destroyer2Shot.length == 4 && destroyer2Sink == true){
-        win.push(true);
-        console.log("zatopiony");
-        playerAction.innerHTML = "SINK!";
-        destroyer2Sink = false;
-    }
-
-    if (win.length == 3){
-        console.log("you win!");
-        playerAction.innerHTML = "YOU WIN!";
+        playerAction.innerHTML = "WRONG PATTERN! TYPE E.G. A5";
     }
 
 }
 
 function gameLoop(): void {
-
-    playerDraw();
-    placeShips();
+    plates = [];
+    ships = [];
     battleshipShot = [];
     destroyer1Shot = [];
     destroyer2Shot = [];
@@ -363,11 +383,12 @@ function gameLoop(): void {
     destroyer1Sink = true;
     destroyer2Sink = true;
     playerAction.innerHTML = "";
-
+    playerDraw();
+    placeShips();
 }
 
-let plates = [];
-let ships = [];
+let plates;
+let ships;
 let battleshipShot;
 let destroyer1Shot;
 let destroyer2Shot;
@@ -391,5 +412,3 @@ enterInput.addEventListener('keypress', function (e) {
         playerMove();
     }
 });
-
-// gameLoop();

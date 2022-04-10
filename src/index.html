@@ -5,18 +5,36 @@
     <title>Battleship</title>
     <style>
         canvas {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            /*display: block;*/
+            /*margin-left: auto;*/
+            /*margin-right: auto;*/
+        }
+        td {
+            width: 57px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 <div id="main">
-    <canvas id="playerField" width="610" height="610" style="border: 1px solid black"></canvas>
+    <table style="  display: block; margin-left: auto; margin-right: auto; width: 610px">
+        <td>A</td> <td>B</td> <td>C</td> <td>D</td> <td>E</td> <td>F</td>
+        <td>G</td> <td>H</td> <td>I</td> <td>J</td>
+
+    </table>
+    <div style="margin-left: 575px;float: left; width: 2%;">
+        <table style="  height: 610px">
+            <tr><td>1</td></tr> <tr><td>2</td></tr> <tr><td>3</td></tr> <tr><td>4</td></tr> <tr><td>5</td></tr>
+            <tr><td>6</td></tr> <tr><td>7</td></tr> <tr><td>8</td></tr> <tr><td>9</td></tr> <tr><td>10</td></tr>
+        </table>
+    </div>
+    <div style="float: left">
+        <canvas id="playerField" width="610" height="610" style="border: 1px solid black"></canvas>
+    </div>
+
     <div id="game" style="text-align: center">
         <p id="action" style="text-align: center; font-size: 24px; font-weight: bold;
-         display: block; margin-left: auto; margin-right: auto; height: 35px; width: 610px; border: 1px solid black"></p>
+         display: block; margin-top: 620px; margin-left: auto; margin-right: auto; height: 35px; width: 610px; border: 1px solid black"></p>
         <input (keydown.enter)='playerMove()'  id="input" type="text" placeholder="a5" style="text-align: center; margin-top: 10px; height: 25px; width: 200px; font-size: 16px">
         <button id="play" style="width: 100px; height: 50px; margin-left: 20px">ENTER</button>
 
