@@ -156,8 +156,8 @@ function placeShips() {
         battleshipField.push(battleshipRandom2);
         // console.log(battleshipRandom1, battleshipRandom2)
         for (var i = 0; i < battleship; i++) {
-            plates[battleshipRandom1 + i][battleshipRandom2].color = 'rgba(0,0,199,1)';
-            plates[battleshipRandom1 + i][battleshipRandom2].drawBoard();
+            // plates[battleshipRandom1 + i][battleshipRandom2].color = 'rgba(0,0,199,1)';
+            // plates[battleshipRandom1 + i][battleshipRandom2].drawBoard();
             ships.push([battleshipRandom1 + i, battleshipRandom2]);
         }
     }
@@ -169,8 +169,8 @@ function placeShips() {
         battleshipField.push(battleshipRandom1);
         battleshipField.push(battleshipRandom2);
         for (var i = 0; i < battleship; i++) {
-            plates[battleshipRandom1][battleshipRandom2 + i].color = 'rgba(0,0,199,1)';
-            plates[battleshipRandom1][battleshipRandom2 + i].drawBoard();
+            // plates[battleshipRandom1][battleshipRandom2 + i].color = 'rgba(0,0,199,1)';
+            // plates[battleshipRandom1][battleshipRandom2 + i].drawBoard();
             ships.push([battleshipRandom1, battleshipRandom2 + i]);
         }
     }
@@ -202,8 +202,8 @@ function placeShips() {
         destroyerField.push(destroyerRandom2);
         // console.log(destroyerRandom1, destroyerRandom2);
         for (var i = 0; i < destroyer; i++) {
-            plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
-            plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
+            // plates[destroyerRandom1 + i][destroyerRandom2].color = 'rgba(0,0,199,1)';
+            // plates[destroyerRandom1 + i][destroyerRandom2].drawBoard();
             ships.push([destroyerRandom1 + i, destroyerRandom2]);
         }
     }
@@ -229,8 +229,8 @@ function placeShips() {
         destroyerField.push(destroyerRandom2);
         // console.log(destroyerRandom1, destroyerRandom2);
         for (var i = 0; i < destroyer; i++) {
-            plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
-            plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
+            // plates[destroyerRandom1][destroyerRandom2 + i].color = 'rgba(0,0,199,1)';
+            // plates[destroyerRandom1][destroyerRandom2 + i].drawBoard();
             ships.push([destroyerRandom1, destroyerRandom2 + i]);
         }
     }
@@ -256,8 +256,8 @@ function placeShips() {
         }
         console.log(destroyerRandom3, destroyerRandom4);
         for (var i = 0; i < destroyer; i++) {
-            plates[destroyerRandom3 + i][destroyerRandom4].color = 'rgba(0,0,199,1)';
-            plates[destroyerRandom3 + i][destroyerRandom4].drawBoard();
+            // plates[destroyerRandom3 + i][destroyerRandom4].color = 'rgba(0,0,199,1)';
+            // plates[destroyerRandom3 + i][destroyerRandom4].drawBoard();
             ships.push([destroyerRandom3 + i, destroyerRandom4]);
         }
     }
@@ -279,8 +279,8 @@ function placeShips() {
         }
         console.log(destroyerRandom3, destroyerRandom4);
         for (var i = 0; i < destroyer; i++) {
-            plates[destroyerRandom3][destroyerRandom4 + i].color = 'rgba(0,0,199,1)';
-            plates[destroyerRandom3][destroyerRandom4 + i].drawBoard();
+            // plates[destroyerRandom3][destroyerRandom4 + i].color = 'rgba(0,0,199,1)';
+            // plates[destroyerRandom3][destroyerRandom4 + i].drawBoard();
             ships.push([destroyerRandom3, destroyerRandom4 + i]);
         }
     }
@@ -347,21 +347,75 @@ function changeInput(input) {
 }
 function playerMove() {
     var playerInput = document.getElementById("input");
-    console.log(playerInput.value);
+    var playerAction = document.getElementById('action');
+    // console.log(playerInput.value);
     // let str = '28';
     // let num = +str;
     // let slicedInput = str.slice(1, str.length);
     // console.log(slicedInput);
     var shoot = changeInput(playerInput.value);
-    console.log(shoot);
-    if (checkIfInArray(ships, shoot)) {
-        console.log("trafiony");
+    // console.log(shoot);
+    var battleship = ships.slice(0, 5);
+    var destroyer1 = ships.slice(5, 9);
+    var destroyer2 = ships.slice(9, ships.length);
+    console.log("shot", shoot);
+    console.log("battleship: ", battleshipShot);
+    console.log("destroyer1: ", destroyer1Shot);
+    console.log("destroyer2: ", destroyer2Shot);
+    if (checkIfInArray(battleship, shoot)) {
+        // console.log("trafiony");
         plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
         plates[shoot[0]][shoot[1]].drawBoard();
+        console.log(!checkIfInArray(battleshipShot, shoot));
+        if (!checkIfInArray(battleshipShot, shoot)) {
+            console.log("trafiony");
+            battleshipShot.push(shoot);
+        }
+        playerAction.innerHTML = "HIT!";
+    }
+    else if (checkIfInArray(destroyer1, shoot)) {
+        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+        plates[shoot[0]][shoot[1]].drawBoard();
+        console.log(!checkIfInArray(battleshipShot, shoot));
+        if (!checkIfInArray(destroyer1Shot, shoot)) {
+            console.log("trafiony");
+            destroyer1Shot.push(shoot);
+        }
+        playerAction.innerHTML = "HIT!";
+    }
+    else if (checkIfInArray(destroyer2, shoot)) {
+        plates[shoot[0]][shoot[1]].color = 'rgba(0,150,0,1)';
+        plates[shoot[0]][shoot[1]].drawBoard();
+        console.log(!checkIfInArray(battleshipShot, shoot));
+        if (!checkIfInArray(destroyer2Shot, shoot)) {
+            console.log("trafiony");
+            destroyer2Shot.push(shoot);
+        }
+        playerAction.innerHTML = "HIT!";
     }
     else {
         plates[shoot[0]][shoot[1]].color = 'rgba(150,150,0,1)';
         plates[shoot[0]][shoot[1]].drawBoard();
+        playerAction.innerHTML = "MISS!";
+    }
+    if (battleshipShot.length == 5) {
+        win.push(true);
+        console.log("zatopiony");
+        playerAction.innerHTML = "SINK!";
+    }
+    if (destroyer1Shot.length == 4) {
+        win.push(true);
+        console.log("zatopiony");
+        playerAction.innerHTML = "SINK!";
+    }
+    if (destroyer2Shot.length == 4) {
+        win.push(true);
+        console.log("zatopiony");
+        playerAction.innerHTML = "SINK!";
+    }
+    if (win.length == 3) {
+        console.log("you win!");
+        playerAction.innerHTML = "YOU WIN!";
     }
 }
 function gameLoop() {
@@ -371,6 +425,10 @@ function gameLoop() {
 var gameRunning = false;
 var plates = [];
 var ships = [];
+var battleshipShot = [];
+var destroyer1Shot = [];
+var destroyer2Shot = [];
+var win = [];
 var btnStart = document.getElementById("start");
 btnStart.addEventListener("click", function (e) { return gameLoop(); });
 var btnInput = document.getElementById("play");
