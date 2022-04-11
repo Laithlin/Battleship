@@ -24,7 +24,7 @@ class Plate {
         this.playerContex.fill();
     }
 }
-
+//function for drawing a plain board
 function playerDraw() {
 
     for (let i = 0; i < 10; i++){
@@ -39,6 +39,7 @@ function playerDraw() {
 
 }
 
+//checking where the next ship can't be place to prevent from collisions
 function updateGrid(tempGrid: any, field: any, grid: string,  ship: number): any {
     let startExcludeX = -1;
     let startExcludeY = -1;
@@ -218,6 +219,7 @@ function placeShips() {
 
 }
 
+//examine players input if it's compatible with pattern
 function checkPattern(pattern: string): boolean{
     let letterArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -252,6 +254,7 @@ function checkPattern(pattern: string): boolean{
     }
 }
 
+//changing input to appropriate coordinates
 function changeInput(input: string): any{
     let firstPart = 0;
     let slicedInput = input.slice(1, input.length);
@@ -303,6 +306,7 @@ function changeInput(input: string): any{
     return [firstPart, secondPart-1];
 }
 
+//monitoring player's movements
 function playerMove(){
     let playerInput = <HTMLInputElement> document.getElementById("input");
     let isGood = checkPattern(playerInput.value);
