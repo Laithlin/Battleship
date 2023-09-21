@@ -1,0 +1,87 @@
+body {
+    background-color: black;
+}
+
+#playerField {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid white
+}
+td {
+    width: 57px;
+    text-align: center;
+}
+
+#upper-row {
+    display: block; 
+    margin-left: 28rem; 
+    margin-right: auto; 
+    width: 610px;
+    color: bisque;
+}
+#leftRow {
+    margin-left: 26rem;
+    float: left; 
+    width: 2%;
+    color: bisque;
+}
+
+.game {
+    text-align: center
+}
+
+#action {
+    text-align: center; 
+    font-size: 24px; 
+    font-weight: bold;
+    display: block; 
+    margin-top: 620px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    height: 35px; 
+    width: 610px; 
+    border: 1px solid white
+}
+
+#input {
+    text-align: center; 
+    margin-top: 10px; 
+    height: 25px; 
+    width: 200px; 
+    font-size: 16px;
+}
+::placeholder {
+    color: blue;
+}
+
+#start {
+    margin-top: 20px; 
+    width: 100px; 
+    height: 50px;
+    border: 1px solid green;
+    background-color: chartreuse;
+    font-weight: bold;
+    color: darkgreen;
+    border-radius: 1em;
+}
+
+#start:hover {
+    background-color: darkgreen;
+    color: chartreuse;
+}
+
+#play {
+    width: 100px;
+    height: 50px;
+    margin-left: 20px;
+    background-color:aquamarine;
+    font-weight: bold;
+    color:darkblue;
+    border-radius: 1em;
+}
+
+#play:hover {
+    background-color: darkblue;
+    color: aquamarine;
+}

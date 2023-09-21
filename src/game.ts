@@ -221,9 +221,9 @@ function placeShips() {
 
 //examine players input if it's compatible with pattern
 function checkPattern(pattern: string): boolean{
-    let letterArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+    const letterArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    let digitArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    const digitArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
     if (pattern.length == 3 || pattern.length == 2){
         console.log("ok")
